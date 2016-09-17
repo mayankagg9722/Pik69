@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "720634667182",
+    "firebase_url": "https://faceapp-c0e7c.firebaseio.com",
+    "project_id": "faceapp-c0e7c",
+    "storage_bucket": "faceapp-c0e7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720634667182:android:b9b3fa88cdd8c796",
+        "android_client_info": {
+          "package_name": "com.example.mayank.faceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720634667182-kfuthhf7fjd8fpc3mkigd2ga5j9ta0a4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mayank.faceapp",
+            "certificate_hash": "DC309E1F6E392D2CA3E5B42894CE1B2FF0CFC2FD"
+          }
+        },
+        {
+          "client_id": "720634667182-6b1u5nlk9o3qcfidsq53875berhmctje.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5RkS_lZal6jag5QhLyuNNBIG1RWmDBFc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720634667182-6b1u5nlk9o3qcfidsq53875berhmctje.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
