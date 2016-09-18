@@ -17,7 +17,8 @@
         android:src="@drawable/ic_add_white_24dp"
         android:id="@+id/add"
         app:backgroundTint="#000000"
-        android:layout_above="@+id/camera"
+        app:fabSize="normal"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 
@@ -29,9 +30,9 @@
         android:id="@+id/gallery"
         android:elevation="8dp"
         android:visibility="invisible"
-        android:layout_marginTop="75dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="56dp" />
+        app:fabSize="normal"
+        android:layout_below="@+id/add"
+        android:layout_alignParentEnd="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -39,26 +40,22 @@
         android:src="@drawable/ic_camera_white_24dp"
         android:id="@+id/camera"
         android:visibility="invisible"
+        app:fabSize="normal"
         android:layout_alignTop="@+id/gallery"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="54dp" />
+        android:layout_alignParentStart="true" />
 
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:id="@+id/imageView3"
         android:layout_below="@+id/camera"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp" />
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        android:layout_toStartOf="@+id/add"
+        android:layout_above="@+id/button" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="go"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+
 
     <!--
     <ImageView
@@ -73,9 +70,26 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/face_overlay"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="130dp"
        android:layout_above="@+id/button"
-       android:layout_alignParentStart="true" />
+       android:layout_toEndOf="@+id/imageView3"
+       android:layout_alignTop="@+id/imageView3" />
+
+    <ImageButton
+        android:layout_width="20dp"
+        android:layout_height="50dp"
+        android:text="Press To Suggest"
+        android:id="@+id/button"
+        android:textColor="#ffff4d"
+        android:textSize="30dp"
+        android:src="@drawable/nextb"
+        android:textStyle="bold|italic"
+        android:typeface="serif"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="#00FFFFFF"
+        android:layout_toEndOf="@+id/add"
+        android:layout_alignStart="@+id/gallery" />
 
 
 </RelativeLayout>

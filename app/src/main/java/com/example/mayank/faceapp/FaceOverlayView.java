@@ -20,8 +20,18 @@ import com.google.android.gms.vision.face.Landmark;
  * Created by mayank on 17-09-2016.
  */
 public class FaceOverlayView extends View {
+
     private Bitmap mBitmap;
     private SparseArray<Face> mFaces;
+
+    float a[][]=new float[9][2];
+    float sum=0;
+    float ex=0;
+    float ey=0;
+    float px=0;
+    float py=0;
+     static int finalvalue=0;
+    int p=0;
 
     public FaceOverlayView(Context context) {
         this(context, null);
@@ -124,6 +134,7 @@ public class FaceOverlayView extends View {
             Log.e("mayank","face hieght"+face.getHeight());
             Log.e("mayank","face width"+face.getHeight());
 
+
             canvas.drawRect( left, top, right, bottom, paint );
         }
 
@@ -138,13 +149,49 @@ public class FaceOverlayView extends View {
         for( int i = 0; i < mFaces.size(); i++ ) {
             Face face = mFaces.valueAt(i);
 
+            p=0;
+            ex=0;
+            ey=0;
+            px=0;
+            py=0;
+            float a[][]={{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
             for ( Landmark landmark : face.getLandmarks() ) {
                 Log.e("mayank","mayank cool="+landmark.getPosition().x+"---"+landmark.getPosition().y);
                 float cx = (int) ( landmark.getPosition().x * scale );
                 float cy = (int) ( landmark.getPosition().y * scale );
+                    a[p][0]=cx;
+                    a[p][1]=cy;
+                    p=p+1;
                 canvas.drawCircle( cx, cy, 10, paint );
             }
+
+            ex= (float)Math.abs(((50)*(((a[0][1]-a[4][1]))/((a[4][1]-a[7][1])))));
+
+            Log.v("loop",String.valueOf(ex));
+
+            ey= (float)Math.abs((1)*(((a[2][0]-a[3][0]))/((a[5][0]-a[6][0]))));
+
+            Log.v("loop",String.valueOf(ey));
+
+            px=(float)(3.24-ex)/(float)3.24;
+            py=(float)(1.31-ey)/(float)1.31;
+            sum=sum+(ex+ey);
+
+            Log.v("loop",String.valueOf(sum));
+
         }
+        if(mFaces.size()!=0) {
+            finalvalue = ((100 - ((int) sum) / mFaces.size())+12);
+            if(finalvalue>100){
+                int t=finalvalue-100;
+                finalvalue=finalvalue-t;
+            }
+        }
+        else{
+            finalvalue=0;
+        }
+        Log.e("loop", String.valueOf(finalvalue));
+        sum=0;
     }
     private void logFaceData() {
         float smilingProbability;

@@ -26,5 +26,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-vision:8.1.0'
     compile 'com.android.support:design:24.1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.roger.catloadinglibrary:catloadinglibrary:1.0.1'
 
 }

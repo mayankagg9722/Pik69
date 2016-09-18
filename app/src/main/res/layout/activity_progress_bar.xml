@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mayank.faceapp.ProgressBar"
+    android:background="@drawable/bg">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:id="@+id/textView"
+        android:layout_marginTop="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="%"
+        android:textSize="50dp"
+        android:id="@+id/textView2"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_alignTop="@+id/textView" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Review:"
+        android:layout_marginLeft="10dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:typeface="sans"
+        android:textSize="30dp"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="134dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/textView3"
+        android:layout_alignStart="@+id/textView3" />
+</RelativeLayout>

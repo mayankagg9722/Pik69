@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     FaceOverlayView mFaceOverlayView;
     //Bitmap bitmap;
 
-    Button button;
+    ImageButton button;
+    int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         imageView=(ImageView)findViewById(R.id.imageView3);
 
-        button=(Button)findViewById(R.id.button);
+        button=(ImageButton)findViewById(R.id.button);
 
 
 
@@ -117,7 +120,13 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,DetectShow.class));
+                if(imageView.getDrawable()!=null) {
+                    startActivity(new Intent(MainActivity.this, ProgressBar.class));
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this,"Seect image first.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -130,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        data.getData();
-        if(requestCode==img&&resultCode==RESULT_OK){
+        if(requestCode==img&&resultCode==RESULT_OK && data !=null && data.getData()!=null){
+            data.getData();
             Log.e("uridata",data.getData().toString());
           //getdata.gallerydata=data.getData();
           imageView.setImageURI(data.getData());
@@ -140,17 +149,35 @@ public class MainActivity extends AppCompatActivity {
             mFaceOverlayView.setBitmap(bitmap);
 
         }
-        else if(requestCode==cap && resultCode==RESULT_OK){
+        else if(requestCode==cap && resultCode==RESULT_OK ){
             Bundle extra=data.getExtras();
             Bitmap photo=(Bitmap)extra.get("data");
             //bitmap = BitmapFactory.decodeStream(stream);
 
-            //bitmap=getResizedBitmap(bitmap,600,450);
+           // photo=getResizedBitmap(photo,600,450);
 
             imageView.setImageBitmap(photo);
 
             mFaceOverlayView.setBitmap(photo);
         }
     }
+
+ /*   public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
+    */
 
 }
