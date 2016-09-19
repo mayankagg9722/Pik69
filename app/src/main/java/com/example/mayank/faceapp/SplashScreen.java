@@ -22,8 +22,16 @@ public class SplashScreen extends AppCompatActivity {
 
 
         videoView=(VideoView)findViewById(R.id.videoView);
-        videoView.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/copy.mp4"));
-        Log.v("location",Environment.getExternalStorageDirectory().getPath());
+
+
+        String uriPath = "android.resource://com.example.mayank.faceapp/raw/copy";
+        Uri uri = Uri.parse(uriPath);
+        videoView.setVideoURI(uri);
+
+
+
+        //videoView.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().getPath()+"/copy.mp4"));
+        //Log.v("location",Environment.getExternalStorageDirectory().getPath());
        // MediaController mediaController=new MediaController(this);
        // videoView.setMediaController(mediaController);
        // mediaController.setAnchorView(videoView);

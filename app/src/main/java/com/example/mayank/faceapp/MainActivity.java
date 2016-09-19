@@ -2,21 +2,19 @@ package com.example.mayank.faceapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,7 +24,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int img=1;
     private static final int cap=2;
 
-    //Uri urigallery,uricap;
-   // Bitmap uricapture;
     ImageView imageView;
 
-   // Getdata getdata=new Getdata();
 
-    FaceOverlayView mFaceOverlayView;
-    //Bitmap bitmap;
+   // FaceOverlayView mFaceOverlayView;
 
     ImageButton button;
-    int flag=0;
+
+    Intent i;
+
+    static Uri capturedImageUri = null;
+    static  int flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         button=(ImageButton)findViewById(R.id.button);
 
+        i=new Intent(MainActivity.this,ShowImage.class);
 
+        //mFaceOverlayView = (FaceOverlayView) findViewById( R.id.face_overlay );
 
-        mFaceOverlayView = (FaceOverlayView) findViewById( R.id.face_overlay );
-
-        InputStream stream=getResources().openRawResource(R.raw.sixthimage);
 
 
 
@@ -101,18 +99,44 @@ public class MainActivity extends AppCompatActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent();
-                i.setType("image/*");
-                i.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(i,"Select Picture"),img);
+                Intent intent=new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"),img);
             }
         });
 
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(i,cap);
+                flag=1;
+                Calendar cal = Calendar.getInstance();
+                File dir=new File(Environment.getExternalStorageDirectory()+"/Pik69");
+                if(!dir.exists()){
+                    dir.mkdir();
+                }
+                File file = new File(dir,(cal.getTimeInMillis() + ".jpg"));
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                } else {
+                    file.delete();
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+                capturedImageUri = Uri.fromFile(file);
+                Log.v("uri",capturedImageUri.toString());
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, capturedImageUri);
+                startActivityForResult(intent,cap);
 
             }
         });
@@ -121,19 +145,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(imageView.getDrawable()!=null) {
-                    startActivity(new Intent(MainActivity.this, ProgressBar.class));
+                    //startActivity(new Intent(MainActivity.this, ProgressBar.class));
+                    startActivity(i);
                 }
                 else
                 {
-                    Toast.makeText(MainActivity.this,"Seect image first.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"First,select any image. ",Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-    }
-
-    public static class Getdata{
-        Uri gallerydata;
     }
 
     @Override
@@ -141,28 +162,39 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==img&&resultCode==RESULT_OK && data !=null && data.getData()!=null){
             data.getData();
-            Log.e("uridata",data.getData().toString());
-          //getdata.gallerydata=data.getData();
-          imageView.setImageURI(data.getData());
+            //Log.e("uridata",data.getData().toString());
 
-            Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-            mFaceOverlayView.setBitmap(bitmap);
+            if(data.getData()!=null){
+                flag=0;
+                i.putExtra("passuri",data.getData().toString());
+                Log.v("uri",data.getData().toString());
+                imageView.setImageURI(data.getData());
+                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                //mFaceOverlayView.setBitmap(bitmap);
+            }
 
         }
         else if(requestCode==cap && resultCode==RESULT_OK ){
-            Bundle extra=data.getExtras();
-            Bitmap photo=(Bitmap)extra.get("data");
-            //bitmap = BitmapFactory.decodeStream(stream);
+            //Bundle extra=data.getExtras();
+          //  Bitmap photo=(Bitmap)extra.get("data");
+           //photo=getResizedBitmap(photo,600,450);
+            try {
+                flag=1;
+                imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
+                        ,capturedImageUri));
+                //mFaceOverlayView.setBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
+                  //      ,capturedImageUri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //imageView.setImageBitmap(photo);
 
-           // photo=getResizedBitmap(photo,600,450);
-
-            imageView.setImageBitmap(photo);
-
-            mFaceOverlayView.setBitmap(photo);
+            //mFaceOverlayView.setBitmap(photo);
         }
     }
 
- /*   public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+   /*
+   public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
         float scaleWidth = ((float) newWidth) / width;
@@ -180,4 +212,9 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.mayank.faceapp;
 
-import android.app.ProgressDialog;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;

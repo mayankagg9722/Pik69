@@ -49,11 +49,11 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:id="@+id/imageView3"
-        android:layout_below="@+id/camera"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="40dp"
         android:layout_toStartOf="@+id/add"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/gallery" />
 
 
 
@@ -66,6 +66,7 @@
         android:layout_alignParentBottom="true" />
         -->
 
+  <!--
    <com.example.mayank.faceapp.FaceOverlayView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/face_overlay"
@@ -74,10 +75,11 @@
        android:layout_above="@+id/button"
        android:layout_toEndOf="@+id/imageView3"
        android:layout_alignTop="@+id/imageView3" />
+       -->
 
     <ImageButton
-        android:layout_width="20dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Press To Suggest"
         android:id="@+id/button"
         android:textColor="#ffff4d"

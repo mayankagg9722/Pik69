@@ -127,12 +127,12 @@ public class FaceOverlayView extends View {
 
             //Log.e("mayank","euler z="+face.getEulerZ());
             //Log.e("mayank","euler y="+face.getEulerY());
-            Log.e("mayank","left green="+face.getPosition().x*scale);
-            Log.e("mayank","right green="+ scale * ( face.getPosition().x + face.getWidth() ));
-            Log.e("mayank","top green="+face.getPosition().y*scale);
-            Log.e("mayank","bottom green="+scale * ( face.getPosition().y + face.getHeight() ));
-            Log.e("mayank","face hieght"+face.getHeight());
-            Log.e("mayank","face width"+face.getHeight());
+            //Log.e("mayank","left green="+face.getPosition().x*scale);
+            //Log.e("mayank","right green="+ scale * ( face.getPosition().x + face.getWidth() ));
+            //Log.e("mayank","top green="+face.getPosition().y*scale);
+            //Log.e("mayank","bottom green="+scale * ( face.getPosition().y + face.getHeight() ));
+            //Log.e("mayank","face hieght"+face.getHeight());
+            //Log.e("mayank","face width"+face.getHeight());
 
 
             canvas.drawRect( left, top, right, bottom, paint );
@@ -156,7 +156,7 @@ public class FaceOverlayView extends View {
             py=0;
             float a[][]={{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};
             for ( Landmark landmark : face.getLandmarks() ) {
-                Log.e("mayank","mayank cool="+landmark.getPosition().x+"---"+landmark.getPosition().y);
+                //Log.e("mayank","mayank cool="+landmark.getPosition().x+"---"+landmark.getPosition().y);
                 float cx = (int) ( landmark.getPosition().x * scale );
                 float cy = (int) ( landmark.getPosition().y * scale );
                     a[p][0]=cx;
@@ -167,17 +167,17 @@ public class FaceOverlayView extends View {
 
             ex= (float)Math.abs(((50)*(((a[0][1]-a[4][1]))/((a[4][1]-a[7][1])))));
 
-            Log.v("loop",String.valueOf(ex));
+            //Log.v("loop",String.valueOf(ex));
 
             ey= (float)Math.abs((1)*(((a[2][0]-a[3][0]))/((a[5][0]-a[6][0]))));
 
-            Log.v("loop",String.valueOf(ey));
+            //Log.v("loop",String.valueOf(ey));
 
             px=(float)(3.24-ex)/(float)3.24;
             py=(float)(1.31-ey)/(float)1.31;
             sum=sum+(ex+ey);
 
-            Log.v("loop",String.valueOf(sum));
+            //Log.v("loop",String.valueOf(sum));
 
         }
         if(mFaces.size()!=0) {
@@ -190,7 +190,7 @@ public class FaceOverlayView extends View {
         else{
             finalvalue=0;
         }
-        Log.e("loop", String.valueOf(finalvalue));
+       // Log.e("loop", String.valueOf(finalvalue));
         sum=0;
     }
     private void logFaceData() {

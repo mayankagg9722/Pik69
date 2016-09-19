@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mayank.faceapp"
-        minSdkVersion 23
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -25,7 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.google.android.gms:play-services-vision:8.1.0'
     compile 'com.android.support:design:24.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.roger.catloadinglibrary:catloadinglibrary:1.0.1'
 
 }
