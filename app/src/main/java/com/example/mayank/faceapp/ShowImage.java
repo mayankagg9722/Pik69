@@ -3,6 +3,7 @@ package com.example.mayank.faceapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -51,20 +52,33 @@ public class ShowImage extends AppCompatActivity {
         if(getIntent().hasExtra("passuri")){
            String uri=getIntent().getStringExtra("passuri");
             Log.v("uri",uri);
-            if(MainActivity.flag==0) {
+
+            Bitmap photo= null;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver()
+                        ,Uri.parse(uri));
+                photo=getResizedBitmap(photo,900,1200);
+                mFaceOverlayView.setBitmap(photo);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+         /*   if(MainActivity.flag==2) {
                 imageView.setImageURI(Uri.parse(uri));
                 imageView.setVisibility(View.INVISIBLE);
                 Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 mFaceOverlayView.setBitmap(bitmap);
-            }
+            }*/
         }
 
         if(MainActivity.flag==1) {
+
+            Bitmap photo= null;
             try {
-           /* imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
-                    ,MainActivity.capturedImageUri));*/
-                mFaceOverlayView.setBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
-                        , MainActivity.capturedImageUri));
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver()
+                        ,MainActivity.capturedImageUri);
+                photo=getResizedBitmap(photo,900,1200);
+                mFaceOverlayView.setBitmap(photo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -77,7 +91,23 @@ public class ShowImage extends AppCompatActivity {
             }
         });
 
+    }
 
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
     }
 }
 

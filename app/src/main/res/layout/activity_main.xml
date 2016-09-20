@@ -49,11 +49,10 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:id="@+id/imageView3"
-        android:layout_toStartOf="@+id/add"
         android:layout_above="@+id/button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/gallery" />
+        android:layout_below="@+id/gallery"/>
 
 
 
@@ -87,10 +86,9 @@
         android:src="@drawable/nextb"
         android:textStyle="bold|italic"
         android:typeface="serif"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:background="#00FFFFFF"
-        android:layout_toEndOf="@+id/add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/gallery"
         android:layout_alignStart="@+id/gallery" />
 
 

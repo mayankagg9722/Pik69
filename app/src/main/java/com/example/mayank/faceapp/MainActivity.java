@@ -1,6 +1,8 @@
 package com.example.mayank.faceapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,7 +10,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,17 +48,23 @@ public class MainActivity extends AppCompatActivity {
 
    // FaceOverlayView mFaceOverlayView;
 
+
+    public static final int REQUEST_CODE=1;
+
     ImageButton button;
 
     Intent i;
 
     static Uri capturedImageUri = null;
     static  int flag=0;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         capture=(FloatingActionButton)findViewById(R.id.camera);
         add=(FloatingActionButton)findViewById(R.id.add);
         gallery=(FloatingActionButton)findViewById(R.id.gallery);
@@ -99,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag=0;
                 Intent intent=new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -109,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flag=1;
+                flag=0;
                 Calendar cal = Calendar.getInstance();
                 File dir=new File(Environment.getExternalStorageDirectory()+"/Pik69");
                 if(!dir.exists()){
                     dir.mkdir();
                 }
-                File file = new File(dir,(cal.getTimeInMillis() + ".jpg"));
+                file = new File(dir,(cal.getTimeInMillis() + ".jpg"));
                 if (!file.exists()) {
                     try {
                         file.createNewFile();
@@ -159,41 +171,52 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        flag=0;
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==img&&resultCode==RESULT_OK && data !=null && data.getData()!=null){
             data.getData();
             //Log.e("uridata",data.getData().toString());
 
             if(data.getData()!=null){
-                flag=0;
                 i.putExtra("passuri",data.getData().toString());
-                Log.v("uri",data.getData().toString());
-                imageView.setImageURI(data.getData());
-                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                //Log.v("uri",data.getData().toString());
+                Bitmap photo=null;
+                try {
+                    photo = MediaStore.Images.Media.getBitmap(getContentResolver()
+                            ,data.getData());
+                    flag=2;
+                    photo=getResizedBitmap(photo,900,1200);
+                    imageView.setImageBitmap(photo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                 //mFaceOverlayView.setBitmap(bitmap);
             }
 
         }
         else if(requestCode==cap && resultCode==RESULT_OK ){
+            flag=0;
             //Bundle extra=data.getExtras();
-          //  Bitmap photo=(Bitmap)extra.get("data");
-           //photo=getResizedBitmap(photo,600,450);
+          //Bitmap photo=(Bitmap)extra.get("data");
+            Bitmap photo= null;
             try {
+                photo = MediaStore.Images.Media.getBitmap(getContentResolver()
+                              ,capturedImageUri);
                 flag=1;
-                imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
-                        ,capturedImageUri));
-                //mFaceOverlayView.setBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
-                  //      ,capturedImageUri));
+                photo=getResizedBitmap(photo,900,1200);
+                imageView.setImageBitmap(photo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //imageView.setImageBitmap(photo);
+               // imageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver()
+                 //       ,capturedImageUri));
 
-            //mFaceOverlayView.setBitmap(photo);
         }
     }
 
-   /*
+
    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -210,11 +233,12 @@ public class MainActivity extends AppCompatActivity {
         bm.recycle();
         return resizedBitmap;
     }
-    */
+
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }
